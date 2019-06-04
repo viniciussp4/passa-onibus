@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    .meu-scroll {
+        display: inline-block;
+        /* table-layout: fixed; */
+        /* word-wrap: break-word; */
+        white-space: nowrap;
+        height: 50vh;
+        width: 100%;
+        overflow-x: scroll;
+        overflow-y: scroll;
+        text-align: center;
+    }
+
+    .scroll-modal {
+        /* display: inline-block;
+        white-space: nowrap; */
+        overflow-y: hidden;
+        /* height: 50vh;   
+        text-align: center; */
+    }
+
+    /* .thaisfodona {
+        width: max-content !important;
+        max-height: 80vh !important;
+    } */
+
+    .scrolledTable {
+        overflow-y: auto;
+        overflow-x: auto;
+        clear: both;
+    }
+
+    @media (min-width: 576px) {
+        .modal-dialog {
+            max-width: 80vw !important;
+            max-height: 90vh !important;
+            /* height: 5vh !important; */
+            width: max-content !important;
+            margin: 30px auto;
+        }
+    }
+</style>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Colorlib">
+    <meta name="description" content="#">
+    <meta name="keywords" content="#">
+    <!-- Page Title -->
+    <title>Passa ônibus</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Simple line Icon -->
+    <link rel="stylesheet" href="css/simple-line-icons.css">
+    <!-- Themify Icon -->
+    <link rel="stylesheet" href="css/themify-icons.css">
+    <!-- Hover Effects -->
+    <link rel="stylesheet" href="css/set1.css">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Autocomplete CSS -->
+    <link rel="stylesheet" href="css/autocomplete_style.css">
+    <!-- Datable CSS -->
+    <link rel="stylesheet" href="css/jquery.dataTables.min.css">
+    <!-- Fav Icon -->
+    <link rel="icon" href="favicon.ico">
+</head>
+
+<body>
+    <!--============================= HEADER =============================-->
+    <div class="nav-menu">
+        <div class="bg transition">
+            <div class="container-fluid fixed">
+                <div class="row">
+                    <div class="col-md-12">
+                        <nav class="navbar navbar-expand-lg navbar-light">
+                            <a class="navbar-brand" href="index.html">Passa ônibus</a>
+                            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                                aria-label="Toggle navigation">
+                                <span class="icon-menu"></span>
+                            </button>
+                            <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+                                <ul class="navbar-nav">
+                                    <!-- <li class="nav-item active">
+                                        <a class="nav-link" href="#">Início</a>
+                                    </li> -->
+                                    <li onclick="mostrarTodasAsLinhas()" class="nav-item">
+                                        <a class="nav-link" href="#">Todas as linhas</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEARCH -->
+    <section class="slider d-flex align-items-center">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-12">
+                    <div class="slider-title_box">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="slider-content_wrap">
+                                    <h1>Para onde você quer ir em Contagem?</h1>
+                                    <h5>Digite a rua em que você se encontra e o seu destino e verifique as linhas de
+                                        ônibus geridas pela Transcon.</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-md-10">
+                                <form class="form-wrap mt-4">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <input name="suarua" id="suarua" type="text" placeholder="Nome da rua atual"
+                                            class="btn-group1">
+                                        <input name="ruadestino" id="ruadestino" type="text"
+                                            placeholder="Nome da rua destino" class="btn-group2">
+                                        <button type="submit" class="btn-form" onclick="return encontrarLinhas()"><span
+                                                class="icon-magnifier search-icon"></span>BUSCAR<i
+                                                class="pe-7s-angle-right dropdown-input"
+                                                style="width:100%"></i></button>
+                                        <!--<button onclick="updateModalWithTable()" type="button" class="btn btn-primary"
+                                            data-toggle="modal" data-target="#modalLinhas">
+                                            Abrir modal de demonstração
+                                        </button>-->
+                                    </div>
+                                    <ul class="list-group" id="result"></ul>
+                                </form>
+                                <!-- <div class="slider-link">
+                                    <a title="Clique para ver todas as linhas no sistema" href="#" onclick="mostrarTodasAsLinhas();return false;">Visualizar todas as linhas disponíveis</a>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--// END SEARCH -->
+    <!--//END HEADER -->
+
+
+    <!-- MODAIS!! -->
+    <!-- Modal para mostrar as linhas -->
+    <div class="modal fade" id="modalLinhas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog scroll-modal" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Linhas de ônibus</h5>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Fechar">
+                        Fechar
+                    </button>
+
+                </div>
+                <div id="bodyModalLinhas" class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para mostrar o itinerário -->
+    <div class="modal fade" id="modalItinerario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog scroll-modal" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Linhas de ônibus</h5>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Fechar">
+                        Voltar
+                    </button>
+
+                </div>
+                <div id="bodyModalItinerario" class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Datatable para o modal de linhas-->
+    <div style="display: none" id="scrollTabelaLinhas">
+        <table id="tabelaLinhas" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Número</th>
+                    <th>Linha</th>
+                    <th>Empresa</th>
+                    <th>Ponto final</th>
+                    <th>Ponto retorno</th>
+                    <th>Tarifa</th>
+                    <th>Itinerário</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Datatable para o modal de itinerário-->
+    <div style="display: none" id="scrollTabelaItinerario">
+        <table id="tabelaItinerario" class="table table-striped table-bordered ">
+            <thead>
+                <tr>
+                    <th>Ida</th>
+                    <th>Volta</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <!-- jQuery, Bootstrap JS. -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.autocomplete.min.js"></script>
+    <script src="js/site.js"></script>
+
+</body>
+
+</html>
