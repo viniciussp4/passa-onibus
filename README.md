@@ -9,7 +9,7 @@ Uma versão online e atualizada conforme esse repositório pode ser acessada atr
 Contexto:
 ---
 
-Trabalho desenvolvido na disciplina Interação Humano-Computador, do curso de Sistemas de Informação na PUC Minas de Contagem.
+Trabalho desenvolvido na disciplina Interação Humano-Computador, do curso de Sistemas de Informação na PUC Minas de Contagem, turno da noite, sob orientação do professor Lesandro Ponciano.
 
 
 Desenvolvedores:
